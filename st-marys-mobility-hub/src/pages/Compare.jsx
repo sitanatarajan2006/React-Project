@@ -58,6 +58,12 @@ function Compare() {
         convenience and carbon impact.
       </p>
 
+      <p>
+        Carbon figures are simplified per-person estimates. Public transport is
+        calculated per passenger, not as if one user is responsible for the whole
+        bus or train.
+      </p>
+
       <label>Journey distance in miles:</label>
       <br />
       <input
@@ -66,6 +72,34 @@ function Compare() {
         onChange={(e) => setDistance(e.target.value)}
         placeholder="Example: 5"
       />
+
+      <br />
+      <br />
+
+      {results.length > 0 && (
+        <table border="1" cellPadding="10">
+          <thead>
+            <tr>
+              <th>Mode</th>
+              <th>Cost</th>
+              <th>Time</th>
+              <th>Convenience</th>
+              <th>Carbon Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.map((item) => (
+              <tr key={item.mode}>
+                <td>{item.mode}</td>
+                <td>{item.cost}</td>
+                <td>{item.time}</td>
+                <td>{item.convenience}</td>
+                <td>{item.carbon}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
