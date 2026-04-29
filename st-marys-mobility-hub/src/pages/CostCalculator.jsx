@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function CostCalculator() {
   const [distance, setDistance] = useState("");
   const [mode, setMode] = useState("bus");
+
+  useEffect(() => {
+    if (distance) {
+      localStorage.setItem("lastDistance", distance);
+    }
+    localStorage.setItem("lastMode", mode);
+  }, [distance, mode]);
 
   function calculateCost() {
     const miles = Number(distance);
