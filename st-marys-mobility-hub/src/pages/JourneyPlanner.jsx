@@ -3,32 +3,82 @@ import { useState } from "react";
 function JourneyPlanner() {
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
+
   const routes = [
-  {
-    from: "St Marys",
-    to: "Richmond",
-    options: [
-      { mode: "Bus", time: "25 mins", cost: "£1.75", notes: "Direct route" },
-      { mode: "Cycling", time: "20 mins", cost: "£0.00", notes: "Fast and flexible" },
-      { mode: "Walking", time: "50 mins", cost: "£0.00", notes: "Scenic route" },
-    ],
-  },
-  {
-    from: "Twickenham",
-    to: "Waterloo",
-    options: [
-      { mode: "Rail", time: "35 mins", cost: "£5.50", notes: "Direct train" },
-      { mode: "Bus + Rail", time: "50 mins", cost: "£4.50", notes: "Cheaper option" },
-    ],
-  },
-];
-const selectedRoute = routes.find(
-  (route) => route.from === start && route.to === end
-);
+    {
+      from: "St Marys",
+      to: "Richmond",
+      options: [
+        {
+          mode: "Bus",
+          time: "25 mins",
+          cost: "£1.75",
+          notes: "Direct route via local bus",
+        },
+        {
+          mode: "Cycling",
+          time: "20 mins",
+          cost: "£0.00",
+          notes: "Fast and flexible",
+        },
+        {
+          mode: "Walking",
+          time: "50 mins",
+          cost: "£0.00",
+          notes: "Long but simple route",
+        },
+      ],
+    },
+    {
+      from: "Twickenham",
+      to: "Waterloo",
+      options: [
+        {
+          mode: "Rail",
+          time: "35 mins",
+          cost: "£5.50",
+          notes: "Direct train service",
+        },
+        {
+          mode: "Bus + Rail",
+          time: "50 mins",
+          cost: "£4.50",
+          notes: "Cheaper but slower option",
+        },
+      ],
+    },
+    {
+      from: "Richmond",
+      to: "Kingston",
+      options: [
+        {
+          mode: "Bus",
+          time: "30 mins",
+          cost: "£1.75",
+          notes: "Direct route",
+        },
+        {
+          mode: "Cycling",
+          time: "25 mins",
+          cost: "£0.00",
+          notes: "Riverside route",
+        },
+      ],
+    },
+  ];
+
+  const selectedRoute = routes.find(
+    (route) => route.from === start && route.to === end
+  );
 
   return (
     <div>
       <h2>Journey Planner</h2>
+
+      <p>
+        Select a start and destination to view available journey options using
+        predefined local data.
+      </p>
 
       <label>Start location:</label>
       <br />
@@ -39,7 +89,8 @@ const selectedRoute = routes.find(
         <option value="Richmond">Richmond Station</option>
       </select>
 
-      <br /><br />
+      <br />
+      <br />
 
       <label>Destination:</label>
       <br />
@@ -50,17 +101,33 @@ const selectedRoute = routes.find(
         <option value="Waterloo">Waterloo</option>
       </select>
 
-      {selectedRoute && (
-        <div>
-          <h3>Route Options:</h3>
-          <ul>
+      <br />
+      <br />
+
+      {selectedRoute ? (
+        <table border="1" cellPadding="10">
+          <thead>
+            <tr>
+              <th>Mode</th>
+              <th>Time</th>
+              <th>Cost</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
             {selectedRoute.options.map((option, index) => (
-              <li key={index}>
-                {option.mode} - {option.time} - {option.cost} ({option.notes})
-              </li>
+              <tr key={index}>
+                <td>{option.mode}</td>
+                <td>{option.time}</td>
+                <td>{option.cost}</td>
+                <td>{option.notes}</td>
+              </tr>
             ))}
-          </ul>
-        </div>
+          </tbody>
+        </table>
+      ) : (
+        start &&
+        end && <p>No available routes for this journey.</p>
       )}
     </div>
   );
