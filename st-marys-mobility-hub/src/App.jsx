@@ -13,11 +13,11 @@ function App() {
   return (
     <Router>
       <nav>
-        <Link to="/">Home</Link> |{" "}
-        <Link to="/travel-modes">Travel Modes</Link> |{" "}
-        <Link to="/journey-planner">Journey Planner</Link> |{" "}
-        <Link to="/compare">Compare Travel Modes</Link> |{" "}
-        <Link to="/cost-calculator">Cost Calculator</Link> |{" "}
+        <Link to="/">Home</Link>{" "}
+        <Link to="/travel-modes">Travel Modes</Link>{" "}
+        <Link to="/journey-planner">Journey Planner</Link>{" "}
+        <Link to="/compare">Compare Travel Modes</Link>{" "}
+        <Link to="/cost-calculator">Cost Calculator</Link>{" "}
         <Link to="/dashboard">Dashboard</Link>
       </nav>
 

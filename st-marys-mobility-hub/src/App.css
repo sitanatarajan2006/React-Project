@@ -8,10 +8,12 @@ nav {
   background-color: #ffffff;
   padding: 15px;
   border-bottom: 1px solid #ddd;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 nav a {
-  margin-right: 15px;
   text-decoration: none;
   color: #333;
   font-weight: 500;
@@ -36,4 +38,42 @@ h1, h2, h3 {
 
 p {
   line-height: 1.6;
+}
+
+input, select {
+  padding: 8px;
+  margin-top: 5px;
+  width: 100%;
+  max-width: 300px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+@media (max-width: 600px) {
+  .container {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  nav {
+    padding: 10px;
+  }
+
+  table {
+    font-size: 12px;
+  }
 }
