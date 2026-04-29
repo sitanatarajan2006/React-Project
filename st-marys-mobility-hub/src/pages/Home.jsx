@@ -4,22 +4,36 @@ function Home() {
       <h1>St Mary’s Urban Mobility Hub</h1>
 
       <p>
-        This application provides guidance on urban travel and helps users plan
-        journeys using different transport options such as bus, rail, cycling,
-        and walking.
+        St Mary’s Urban Mobility Hub helps users make better everyday travel
+        decisions by comparing different ways to move around the city, including
+        bus, rail, cycling and walking.
+      </p>
+
+      <h2>Urban Travel Guidance</h2>
+
+      <p>
+        Good journey planning means choosing a travel option that balances cost,
+        time, convenience, accessibility and environmental impact. Short journeys
+        may be better suited to walking or cycling, while longer journeys may be
+        more practical by bus, rail or a combination of transport modes.
       </p>
 
       <p>
-        Users can compare travel modes, estimate costs, and explore suitable
-        journey options based on their needs.
+        Users should consider service reliability, travel time, fare cost,
+        weather conditions, safety, peak-time congestion and personal mobility
+        needs before choosing a route.
       </p>
 
-      <h3>How to use this application:</h3>
+      <h2>Journey Planning Advice</h2>
+
       <ul>
-        <li>Use the Journey Planner to explore travel routes</li>
-        <li>Compare travel modes to choose the best option</li>
-        <li>Estimate journey costs using the cost calculator</li>
+        <li>Check more than one travel option before starting a journey.</li>
+        <li>Allow extra time during peak hours or when changing transport modes.</li>
+        <li>Use walking or cycling for short trips where practical.</li>
+        <li>Use public transport for longer urban journeys to reduce car dependency.</li>
+        <li>Consider cost, time and carbon impact when comparing routes.</li>
       </ul>
+
     </div>
   );
 }
