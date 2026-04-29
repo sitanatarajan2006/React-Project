@@ -7,27 +7,26 @@ function JourneyPlanner() {
   return (
     <div>
       <h2>Journey Planner</h2>
-      <p>Select a start and destination to view available routes.</p>
 
       <label>Start location:</label>
       <br />
-      <input
-        type="text"
-        value={start}
-        onChange={(e) => setStart(e.target.value)}
-        placeholder="e.g. Station A"
-      />
+      <select value={start} onChange={(e) => setStart(e.target.value)}>
+        <option value="">Select start</option>
+        <option value="St Marys">St Mary’s Campus</option>
+        <option value="Twickenham">Twickenham Station</option>
+        <option value="Richmond">Richmond Station</option>
+      </select>
 
       <br /><br />
 
       <label>Destination:</label>
       <br />
-      <input
-        type="text"
-        value={end}
-        onChange={(e) => setEnd(e.target.value)}
-        placeholder="e.g. Station B"
-      />
+      <select value={end} onChange={(e) => setEnd(e.target.value)}>
+        <option value="">Select destination</option>
+        <option value="Richmond">Richmond Station</option>
+        <option value="Kingston">Kingston Town Centre</option>
+        <option value="Waterloo">Waterloo</option>
+      </select>
     </div>
   );
 }
