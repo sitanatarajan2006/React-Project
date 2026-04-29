@@ -1,4 +1,10 @@
 function JourneyPlanner() {
-  return <h2>Journey Planner</h2>;
+  return (
+    <div>
+      <h2>Journey Planner</h2>
+      <p>Select a start and destination to view available routes.</p>
+    </div>
+  );
 }
+
 export default JourneyPlanner;
