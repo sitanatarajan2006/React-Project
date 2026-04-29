@@ -43,8 +43,12 @@ function JourneyPlanner() {
       <h2>Journey Planner</h2>
 
       <p>
-        Select a start and destination to view available journey options using
-        predefined local data.
+        Select a start and destination to view available journey options.
+      </p>
+
+      <p>
+        This planner uses predefined data to demonstrate how different transport
+        options can be compared.
       </p>
 
       <label>Start location:</label>
@@ -71,6 +75,13 @@ function JourneyPlanner() {
 
       {isInvalidSelection && (
         <p>Please select different start and destination locations.</p>
+      )}
+
+      {selectedRoute && !isInvalidSelection && (
+        <p>
+          Showing journey options from <strong>{start}</strong> to{" "}
+          <strong>{end}</strong>.
+        </p>
       )}
 
       {selectedRoute && !isInvalidSelection ? (
