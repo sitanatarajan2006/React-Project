@@ -9,60 +9,25 @@ function JourneyPlanner() {
       from: "St Marys",
       to: "Richmond",
       options: [
-        {
-          mode: "Bus",
-          time: "25 mins",
-          cost: "£1.75",
-          notes: "Direct route via local bus",
-        },
-        {
-          mode: "Cycling",
-          time: "20 mins",
-          cost: "£0.00",
-          notes: "Fast and flexible",
-        },
-        {
-          mode: "Walking",
-          time: "50 mins",
-          cost: "£0.00",
-          notes: "Long but simple route",
-        },
+        { mode: "Bus", time: "25 mins", cost: "£1.75", notes: "Direct route" },
+        { mode: "Cycling", time: "20 mins", cost: "£0.00", notes: "Fast route" },
+        { mode: "Walking", time: "50 mins", cost: "£0.00", notes: "Long route" },
       ],
     },
     {
       from: "Twickenham",
       to: "Waterloo",
       options: [
-        {
-          mode: "Rail",
-          time: "35 mins",
-          cost: "£5.50",
-          notes: "Direct train service",
-        },
-        {
-          mode: "Bus + Rail",
-          time: "50 mins",
-          cost: "£4.50",
-          notes: "Cheaper but slower option",
-        },
+        { mode: "Rail", time: "35 mins", cost: "£5.50", notes: "Direct train" },
+        { mode: "Bus + Rail", time: "50 mins", cost: "£4.50", notes: "Cheaper option" },
       ],
     },
     {
       from: "Richmond",
       to: "Kingston",
       options: [
-        {
-          mode: "Bus",
-          time: "30 mins",
-          cost: "£1.75",
-          notes: "Direct route",
-        },
-        {
-          mode: "Cycling",
-          time: "25 mins",
-          cost: "£0.00",
-          notes: "Riverside route",
-        },
+        { mode: "Bus", time: "30 mins", cost: "£1.75", notes: "Direct route" },
+        { mode: "Cycling", time: "25 mins", cost: "£0.00", notes: "Riverside route" },
       ],
     },
   ];
@@ -70,6 +35,8 @@ function JourneyPlanner() {
   const selectedRoute = routes.find(
     (route) => route.from === start && route.to === end
   );
+
+  const isInvalidSelection = start && end && start === end;
 
   return (
     <div>
@@ -89,8 +56,7 @@ function JourneyPlanner() {
         <option value="Richmond">Richmond Station</option>
       </select>
 
-      <br />
-      <br />
+      <br /><br />
 
       <label>Destination:</label>
       <br />
@@ -101,10 +67,13 @@ function JourneyPlanner() {
         <option value="Waterloo">Waterloo</option>
       </select>
 
-      <br />
-      <br />
+      <br /><br />
 
-      {selectedRoute ? (
+      {isInvalidSelection && (
+        <p>Please select different start and destination locations.</p>
+      )}
+
+      {selectedRoute && !isInvalidSelection ? (
         <table border="1" cellPadding="10">
           <thead>
             <tr>
@@ -127,7 +96,8 @@ function JourneyPlanner() {
         </table>
       ) : (
         start &&
-        end && <p>No available routes for this journey.</p>
+        end &&
+        !isInvalidSelection && <p>No available routes for this journey.</p>
       )}
     </div>
   );
