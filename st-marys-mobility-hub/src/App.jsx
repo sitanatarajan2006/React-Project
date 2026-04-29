@@ -4,8 +4,7 @@ import JourneyPlanner from "./pages/JourneyPlanner"
 import Compare from "./pages/Compare"
 import CostCalculator from "./pages/CostCalculator"
 import Dashboard from "./pages/Dashboard"
-
-
+import TravelModes from "./pages/TravelModes";
 
 function App() {
   return (
@@ -15,7 +14,8 @@ function App() {
         <Link to="/journey-planner">Journey Planner</Link> |{" "}
         <Link to="/compare">Compare Travel Modes</Link> |{" "}
         <Link to="/cost-calculator">Cost Calculator</Link> |{" "}
-        <Link to="/dashboard">Dashboard</Link>
+        <Link to="/dashboard">Dashboard</Link> |{" "}
+        <Link to="/travel-modes">Travel Modes</Link>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -23,6 +23,7 @@ function App() {
         <Route path="/compare" element={<Compare />} />
         <Route path="/cost-calculator" element={<CostCalculator />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/travel-modes" element={<TravelModes />} />
       </Routes>
     </Router>
   );
