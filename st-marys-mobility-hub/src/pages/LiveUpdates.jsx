@@ -15,7 +15,7 @@ function LiveUpdates() {
     async function fetchData() {
       try {
         const res = await fetch(
-          "https://api.tfl.gov.uk/line/mode/tube,overground/status"
+          "https://api.tfl.gov.uk/line/mode/tube,national-rail/status"
         );
 
         const data = await res.json();
