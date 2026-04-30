@@ -5,15 +5,19 @@ function JourneyPlanner() {
   const [end, setEnd] = useState("");
   const [journeys, setJourneys] = useState([]);
   const [message, setMessage] = useState("");
+  const [savedMessage, setSavedMessage] = useState("");
 
   async function getPlaceId(query) {
     const res = await fetch(
       `https://api.tfl.gov.uk/StopPoint/Search/${encodeURIComponent(query)}`
     );
+
     const data = await res.json();
+
     if (!data.matches || data.matches.length === 0) {
       return null;
     }
+
     return data.matches[0].id;
   }
 
@@ -25,6 +29,7 @@ function JourneyPlanner() {
     }
 
     setMessage("Searching...");
+    setSavedMessage("");
     setJourneys([]);
 
     try {
@@ -55,13 +60,48 @@ function JourneyPlanner() {
     }
   }
 
+  function getServiceName(leg) {
+    if (leg.routeOptions && leg.routeOptions.length > 0) {
+      return leg.routeOptions[0].name;
+    }
+
+    if (leg.instruction && leg.instruction.summary) {
+      return leg.instruction.summary;
+    }
+
+    return leg.mode.name;
+  }
+
+  function saveFavourite(journey) {
+    const saved = JSON.parse(localStorage.getItem("favouriteJourneys") || "[]");
+
+    const favourite = {
+      id: Date.now(),
+      start,
+      end,
+      duration: journey.duration,
+      services: journey.legs.map((leg) => ({
+        mode: leg.mode.name,
+        service: getServiceName(leg),
+        from: leg.departurePoint.commonName,
+        to: leg.arrivalPoint.commonName,
+        duration: leg.duration,
+      })),
+    };
+
+    localStorage.setItem(
+      "favouriteJourneys",
+      JSON.stringify([...saved, favourite])
+    );
+
+    setSavedMessage("Journey saved to dashboard.");
+  }
+
   return (
     <div>
       <h2>Journey Planner</h2>
 
-      <p>
-        Enter a start and destination to find routes using live TfL journey data.
-      </p>
+      <p>Enter a start and destination to find routes using live TfL journey data.</p>
 
       <div className="card">
         <label>Start</label>
@@ -92,19 +132,25 @@ function JourneyPlanner() {
       </div>
 
       {message && <p>{message}</p>}
+      {savedMessage && <p>{savedMessage}</p>}
 
       {journeys.length > 0 && (
-        <div className="card">
+        <div>
           {journeys.map((journey, index) => (
-            <div key={index}>
+            <div className="card" key={index}>
               <h3>Option {index + 1}</h3>
               <p>Total time: {journey.duration} minutes</p>
+
+              <button onClick={() => saveFavourite(journey)}>
+                Save to favourites
+              </button>
 
               <table>
                 <thead>
                   <tr>
                     <th>Step</th>
                     <th>Mode</th>
+                    <th>Service / Line</th>
                     <th>From</th>
                     <th>To</th>
                     <th>Time</th>
@@ -115,6 +161,7 @@ function JourneyPlanner() {
                     <tr key={i}>
                       <td>{i + 1}</td>
                       <td>{leg.mode.name}</td>
+                      <td>{getServiceName(leg)}</td>
                       <td>{leg.departurePoint.commonName}</td>
                       <td>{leg.arrivalPoint.commonName}</td>
                       <td>{leg.duration} mins</td>
