@@ -6,6 +6,7 @@ import Compare from "./pages/Compare";
 import CostCalculator from "./pages/CostCalculator";
 import Dashboard from "./pages/Dashboard";
 import TravelModes from "./pages/TravelModes";
+import LiveUpdates from "./pages/LiveUpdates";
 
 import "./App.css";
 
@@ -19,6 +20,7 @@ function App() {
         <Link to="/compare">Compare Travel Modes</Link>
         <Link to="/cost-calculator">Cost Calculator</Link>
         <Link to="/dashboard">Dashboard</Link>
+        <Link to="/live-updates">Live Updates</Link>
       </nav>
 
       <div className="container">
@@ -29,6 +31,7 @@ function App() {
           <Route path="/compare" element={<Compare />} />
           <Route path="/cost-calculator" element={<CostCalculator />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/live-updates" element={<LiveUpdates />} />
         </Routes>
       </div>
     </Router>
