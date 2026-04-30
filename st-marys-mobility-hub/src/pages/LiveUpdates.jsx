@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 function LiveUpdates() {
   const [lines, setLines] = useState([]);
   const [watchedLines, setWatchedLines] = useState([]);
-  const [message, setMessage] = useState("Loading...");
+  const [message, setMessage] = useState("Loading live service updates...");
 
   useEffect(() => {
     const saved = localStorage.getItem("watchedLines");
@@ -21,14 +21,14 @@ function LiveUpdates() {
         const data = await res.json();
 
         if (!Array.isArray(data) || data.length === 0) {
-          setMessage("No data available.");
+          setMessage("No live service updates available.");
           return;
         }
 
         setLines(data);
         setMessage("");
       } catch {
-        setMessage("Error loading data.");
+        setMessage("Error loading live service updates.");
       }
     }
 
@@ -54,43 +54,53 @@ function LiveUpdates() {
     return watchedLines.some((item) => item.id === lineId);
   }
 
+  function getStatusClass(status) {
+    if (status === "Good Service") {
+      return "status-good";
+    }
+
+    if (status?.toLowerCase().includes("minor")) {
+      return "status-warning";
+    }
+
+    return "status-delay";
+  }
+
   return (
     <div>
       <h2>Live Service Updates</h2>
 
       <p>
-        View live service information and select lines to monitor on your
-        dashboard.
+        View live transport status updates and choose service lines to monitor on
+        your dashboard.
       </p>
 
       {message && <p>{message}</p>}
 
       {lines.length > 0 && (
-        <div className="card">
-          <table>
-            <thead>
-              <tr>
-                <th>Line</th>
-                <th>Status</th>
-                <th>Details</th>
-                <th>Monitor</th>
-              </tr>
-            </thead>
-            <tbody>
-              {lines.map((line) => (
-                <tr key={line.id}>
-                  <td>{line.name}</td>
-                  <td>{line.lineStatuses[0]?.statusSeverityDescription}</td>
-                  <td>{line.lineStatuses[0]?.reason || "Good service"}</td>
-                  <td>
-                    <button onClick={() => toggleWatch(line)}>
-                      {isWatched(line.id) ? "Remove" : "Monitor"}
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="grid">
+          {lines.map((line) => {
+            const status =
+              line.lineStatuses[0]?.statusSeverityDescription || "Unknown";
+            const details = line.lineStatuses[0]?.reason || "No disruption reported";
+
+            return (
+              <div className="card" key={line.id}>
+                <h3>{line.name}</h3>
+
+                <p className={getStatusClass(status)}>{status}</p>
+
+                <p>{details}</p>
+
+                <button
+                  className={isWatched(line.id) ? "secondary" : ""}
+                  onClick={() => toggleWatch(line)}
+                >
+                  {isWatched(line.id) ? "Remove monitor" : "Monitor line"}
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
