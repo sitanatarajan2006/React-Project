@@ -10,13 +10,10 @@ function JourneyPlanner() {
     const res = await fetch(
       `https://api.tfl.gov.uk/StopPoint/Search/${encodeURIComponent(query)}`
     );
-
     const data = await res.json();
-
     if (!data.matches || data.matches.length === 0) {
       return null;
     }
-
     return data.matches[0].id;
   }
 
@@ -66,34 +63,38 @@ function JourneyPlanner() {
         Enter a start and destination to find routes using live TfL journey data.
       </p>
 
-      <label>Start:</label>
-      <br />
-      <input
-        type="text"
-        value={start}
-        onChange={(e) => setStart(e.target.value)}
-        placeholder="e.g. Twickenham Station"
-      />
+      <div className="card">
+        <label>Start</label>
+        <br />
+        <input
+          type="text"
+          value={start}
+          onChange={(e) => setStart(e.target.value)}
+          placeholder="e.g. Twickenham Station"
+        />
 
-      <br /><br />
+        <br />
+        <br />
 
-      <label>Destination:</label>
-      <br />
-      <input
-        type="text"
-        value={end}
-        onChange={(e) => setEnd(e.target.value)}
-        placeholder="e.g. Waterloo Station"
-      />
+        <label>Destination</label>
+        <br />
+        <input
+          type="text"
+          value={end}
+          onChange={(e) => setEnd(e.target.value)}
+          placeholder="e.g. Waterloo Station"
+        />
 
-      <br /><br />
+        <br />
+        <br />
 
-      <button onClick={planJourney}>Plan Journey</button>
+        <button onClick={planJourney}>Plan Journey</button>
+      </div>
 
       {message && <p>{message}</p>}
 
       {journeys.length > 0 && (
-        <div>
+        <div className="card">
           {journeys.map((journey, index) => (
             <div key={index}>
               <h3>Option {index + 1}</h3>
