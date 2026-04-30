@@ -2,9 +2,16 @@ import { useEffect, useState } from "react";
 
 function LiveUpdates() {
   const [lines, setLines] = useState([]);
+  const [watchedLines, setWatchedLines] = useState([]);
   const [message, setMessage] = useState("Loading...");
 
   useEffect(() => {
+    const saved = localStorage.getItem("watchedLines");
+
+    if (saved) {
+      setWatchedLines(JSON.parse(saved));
+    }
+
     async function fetchData() {
       try {
         const res = await fetch(
@@ -28,11 +35,33 @@ function LiveUpdates() {
     fetchData();
   }, []);
 
+  function toggleWatch(line) {
+    const exists = watchedLines.some((item) => item.id === line.id);
+
+    let updated;
+
+    if (exists) {
+      updated = watchedLines.filter((item) => item.id !== line.id);
+    } else {
+      updated = [...watchedLines, { id: line.id, name: line.name }];
+    }
+
+    setWatchedLines(updated);
+    localStorage.setItem("watchedLines", JSON.stringify(updated));
+  }
+
+  function isWatched(lineId) {
+    return watchedLines.some((item) => item.id === lineId);
+  }
+
   return (
     <div>
       <h2>Live Service Updates</h2>
 
-      <p>Live status of major London transport lines.</p>
+      <p>
+        View live service information and select lines to monitor on your
+        dashboard.
+      </p>
 
       {message && <p>{message}</p>}
 
@@ -44,6 +73,7 @@ function LiveUpdates() {
                 <th>Line</th>
                 <th>Status</th>
                 <th>Details</th>
+                <th>Monitor</th>
               </tr>
             </thead>
             <tbody>
@@ -52,6 +82,11 @@ function LiveUpdates() {
                   <td>{line.name}</td>
                   <td>{line.lineStatuses[0]?.statusSeverityDescription}</td>
                   <td>{line.lineStatuses[0]?.reason || "Good service"}</td>
+                  <td>
+                    <button onClick={() => toggleWatch(line)}>
+                      {isWatched(line.id) ? "Remove" : "Monitor"}
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 function Dashboard() {
   const [favourites, setFavourites] = useState([]);
   const [selectedJourney, setSelectedJourney] = useState(null);
+  const [alerts, setAlerts] = useState([]);
+  const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     const saved = localStorage.getItem("favouriteJourneys");
@@ -10,7 +12,50 @@ function Dashboard() {
     if (saved) {
       setFavourites(JSON.parse(saved));
     }
+
+    fetchWatchedLineAlerts();
   }, []);
+
+  async function fetchWatchedLineAlerts() {
+    const watched = localStorage.getItem("watchedLines");
+
+    if (!watched) {
+      setAlertMessage("No monitored service lines yet.");
+      return;
+    }
+
+    const watchedLines = JSON.parse(watched);
+
+    if (watchedLines.length === 0) {
+      setAlertMessage("No monitored service lines yet.");
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        "https://api.tfl.gov.uk/line/mode/tube,overground,elizabeth-line,national-rail/status"
+      );
+
+      const data = await res.json();
+
+      const delayed = data.filter((line) => {
+        const watchedLine = watchedLines.some((item) => item.id === line.id);
+        const status = line.lineStatuses[0]?.statusSeverityDescription;
+
+        return watchedLine && status !== "Good Service";
+      });
+
+      setAlerts(delayed);
+
+      if (delayed.length === 0) {
+        setAlertMessage("No delays on your monitored lines.");
+      } else {
+        setAlertMessage("");
+      }
+    } catch {
+      setAlertMessage("Unable to load monitored service alerts.");
+    }
+  }
 
   function removeFavourite(id) {
     const updated = favourites.filter((journey) => journey.id !== id);
@@ -27,7 +72,34 @@ function Dashboard() {
     <div>
       <h2>Dashboard</h2>
 
-      <p>View your saved favourite journeys.</p>
+      <p>View your saved favourite journeys and monitored service alerts.</p>
+
+      <div className="card">
+        <h3>Service Alerts</h3>
+
+        {alertMessage && <p>{alertMessage}</p>}
+
+        {alerts.length > 0 && (
+          <table>
+            <thead>
+              <tr>
+                <th>Line</th>
+                <th>Status</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              {alerts.map((line) => (
+                <tr key={line.id}>
+                  <td>{line.name}</td>
+                  <td>{line.lineStatuses[0]?.statusSeverityDescription}</td>
+                  <td>{line.lineStatuses[0]?.reason || "No details"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
 
       <div className="card">
         <h3>Favourite Journeys</h3>
