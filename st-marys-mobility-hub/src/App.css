@@ -1,30 +1,28 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #f7f7f7;
-  color: #111;
+  background: #f4f7fb;
+  color: #111827;
 }
-
 
 nav {
   display: flex;
   gap: 24px;
   padding: 20px 40px;
   background: #ffffff;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 nav a {
   text-decoration: none;
-  color: #444;
+  color: #374151;
   font-size: 14px;
   transition: color 0.2s ease;
 }
 
 nav a:hover {
-  color: #000;
+  color: #2563eb;
 }
-
 
 .container {
   max-width: 1100px;
@@ -32,48 +30,49 @@ nav a:hover {
   padding: 0 20px;
 }
 
-
 h1 {
   font-size: 40px;
   font-weight: 600;
   margin-bottom: 10px;
+  color: #0f172a;
 }
 
 h2 {
   font-size: 28px;
   margin-bottom: 15px;
+  color: #0f172a;
 }
 
 h3 {
   font-size: 18px;
   margin-bottom: 10px;
+  color: #1e3a8a;
 }
 
 p {
-  color: #555;
+  color: #4b5563;
   line-height: 1.6;
 }
 
-
 .card {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  margin-bottom: 20px;
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  margin-bottom: 22px;
+  border: 1px solid #e5e7eb;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  box-shadow: 0 16px 42px rgba(37, 99, 235, 0.12);
 }
 
-
 input, select {
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  padding: 11px 13px;
+  border-radius: 9px;
+  border: 1px solid #cbd5e1;
   width: 100%;
   max-width: 350px;
   font-size: 14px;
@@ -81,24 +80,24 @@ input, select {
 
 input:focus, select:focus {
   outline: none;
-  border-color: #000;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
-
 
 button {
   padding: 10px 16px;
   border: none;
-  background: #000;
-  color: #fff;
-  border-radius: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  border-radius: 9px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 button:hover {
-  background: #333;
+  background: #1d4ed8;
+  transform: translateY(-1px);
 }
-
 
 table {
   width: 100%;
@@ -108,16 +107,17 @@ table {
 
 th {
   text-align: left;
-  font-weight: 500;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+  font-weight: 600;
+  padding: 12px;
+  background: #eff6ff;
+  color: #1e3a8a;
+  border-bottom: 1px solid #dbeafe;
 }
 
 td {
-  padding: 10px;
-  border-bottom: 1px solid #f2f2f2;
+  padding: 12px;
+  border-bottom: 1px solid #eef2f7;
 }
-
 
 @media (max-width: 600px) {
   nav {
