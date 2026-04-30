@@ -72,7 +72,7 @@ function Dashboard() {
     <div>
       <h2>Dashboard</h2>
 
-      <p>View your saved favourite journeys and monitored service alerts.</p>
+      <p>View favourite journeys and monitored service alerts.</p>
 
       <div className="card">
         <h3>Service Alerts</h3>
@@ -80,24 +80,17 @@ function Dashboard() {
         {alertMessage && <p>{alertMessage}</p>}
 
         {alerts.length > 0 && (
-          <table>
-            <thead>
-              <tr>
-                <th>Line</th>
-                <th>Status</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              {alerts.map((line) => (
-                <tr key={line.id}>
-                  <td>{line.name}</td>
-                  <td>{line.lineStatuses[0]?.statusSeverityDescription}</td>
-                  <td>{line.lineStatuses[0]?.reason || "No details"}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="grid">
+            {alerts.map((line) => (
+              <div className="card" key={line.id}>
+                <h3>{line.name}</h3>
+                <p className="status-delay">
+                  {line.lineStatuses[0]?.statusSeverityDescription}
+                </p>
+                <p>{line.lineStatuses[0]?.reason || "No details available"}</p>
+              </div>
+            ))}
+          </div>
         )}
       </div>
 
@@ -107,36 +100,30 @@ function Dashboard() {
         {favourites.length === 0 && <p>No favourite journeys saved yet.</p>}
 
         {favourites.length > 0 && (
-          <table>
-            <thead>
-              <tr>
-                <th>From</th>
-                <th>To</th>
-                <th>Typical Time</th>
-                <th>Details</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {favourites.map((journey) => (
-                <tr key={journey.id}>
-                  <td>{journey.start}</td>
-                  <td>{journey.end}</td>
-                  <td>{journey.duration} mins</td>
-                  <td>
-                    <button onClick={() => setSelectedJourney(journey)}>
-                      Details
-                    </button>
-                  </td>
-                  <td>
-                    <button onClick={() => removeFavourite(journey.id)}>
-                      Remove
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="grid">
+            {favourites.map((journey) => (
+              <div className="card" key={journey.id}>
+                <h3>
+                  {journey.start} to {journey.end}
+                </h3>
+
+                <p>
+                  <strong>Typical time:</strong> {journey.duration} mins
+                </p>
+
+                <button onClick={() => setSelectedJourney(journey)}>
+                  Details
+                </button>
+
+                <button
+                  className="secondary"
+                  onClick={() => removeFavourite(journey.id)}
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
         )}
       </div>
 
@@ -148,30 +135,25 @@ function Dashboard() {
 
           <p>Total time: {selectedJourney.duration} minutes</p>
 
-          <table>
-            <thead>
-              <tr>
-                <th>Step</th>
-                <th>Mode</th>
-                <th>Service / Line</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {selectedJourney.services.map((service, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{service.mode}</td>
-                  <td>{service.service}</td>
-                  <td>{service.from}</td>
-                  <td>{service.to}</td>
-                  <td>{service.duration} mins</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="grid">
+            {selectedJourney.services.map((service, index) => (
+              <div className="card" key={index}>
+                <p>
+                  <strong>Step {index + 1}:</strong> {service.mode}
+                </p>
+                <p>
+                  <strong>Service:</strong> {service.service}
+                </p>
+                <p>
+                  <strong>From:</strong> {service.from}
+                </p>
+                <p>
+                  <strong>To:</strong> {service.to}
+                </p>
+                <p className="muted">{service.duration} mins</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
