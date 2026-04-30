@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import TravelModes from "./pages/TravelModes";
 import LiveUpdates from "./pages/LiveUpdates";
 import NearbyStops from "./pages/NearbyStops";
+import BikeHire from "./pages/BikeHire";
 
 import "./App.css";
 
@@ -23,6 +24,7 @@ function App() {
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/live-updates">Live Updates</Link>
         <Link to="/nearby-stops">Nearby Stops</Link>
+        <Link to="/bike-hire">Bike Hire</Link>
       </nav>
 
       <div className="container">
@@ -35,6 +37,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/live-updates" element={<LiveUpdates />} />
           <Route path="/nearby-stops" element={<NearbyStops />} />
+          <Route path="/bike-hire" element={<BikeHire />} />
         </Routes>
       </div>
     </Router>
