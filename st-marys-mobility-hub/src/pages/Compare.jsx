@@ -16,21 +16,21 @@ function Compare() {
         cost: "£0.00",
         time: `${Math.round(miles * 20)} mins`,
         convenience: "Best for short journeys",
-        carbon: "0g CO₂e per person",
+        carbon: "0g CO₂e",
       },
       {
         mode: "Cycling",
         cost: "£0.00",
         time: `${Math.round(miles * 6)} mins`,
         convenience: "Fast but weather dependent",
-        carbon: "0g CO₂e per person",
+        carbon: "0g CO₂e",
       },
       {
         mode: "Bus",
         cost: "£1.75",
         time: `${Math.round(miles * 8 + 10)} mins`,
-        convenience: "Low cost but affected by traffic",
-        carbon: `${Math.round(miles * 80)}g CO₂e per passenger`,
+        convenience: "Low cost but traffic affected",
+        carbon: `${Math.round(miles * 80)}g CO₂e`,
       },
       {
         mode: "Rail / Tube",
@@ -42,7 +42,7 @@ function Compare() {
             : "£5.60+",
         time: `${Math.round(miles * 4 + 5)} mins`,
         convenience: "Fast and reliable",
-        carbon: `${Math.round(miles * 35)}g CO₂e per passenger`,
+        carbon: `${Math.round(miles * 35)}g CO₂e`,
       },
     ];
   }
@@ -53,43 +53,31 @@ function Compare() {
     <div>
       <h2>Compare Travel Modes</h2>
 
-      <p>Compare cost, time, convenience and environmental impact.</p>
+      <p>Compare time, cost and environmental impact.</p>
 
       <div className="card">
-        <label>Journey distance in miles</label>
-        <br />
-        <input
-          type="number"
-          value={distance}
-          onChange={(e) => setDistance(e.target.value)}
-          placeholder="Example: 5"
-        />
+        <div className="input-row">
+          <label>Distance (miles)</label>
+          <input
+            type="number"
+            value={distance}
+            onChange={(e) => setDistance(e.target.value)}
+            placeholder="e.g. 5"
+          />
+        </div>
       </div>
 
       {results.length > 0 && (
-        <div className="card">
-          <table>
-            <thead>
-              <tr>
-                <th>Mode</th>
-                <th>Cost</th>
-                <th>Time</th>
-                <th>Convenience</th>
-                <th>Carbon</th>
-              </tr>
-            </thead>
-            <tbody>
-              {results.map((item) => (
-                <tr key={item.mode}>
-                  <td>{item.mode}</td>
-                  <td>{item.cost}</td>
-                  <td>{item.time}</td>
-                  <td>{item.convenience}</td>
-                  <td>{item.carbon}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="grid">
+          {results.map((item) => (
+            <div className="card" key={item.mode}>
+              <h3>{item.mode}</h3>
+              <p><strong>Cost:</strong> {item.cost}</p>
+              <p><strong>Time:</strong> {item.time}</p>
+              <p><strong>Convenience:</strong> {item.convenience}</p>
+              <p className="muted">{item.carbon}</p>
+            </div>
+          ))}
         </div>
       )}
     </div>
