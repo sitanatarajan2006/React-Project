@@ -3,33 +3,34 @@ function TravelModes() {
     <div>
       <h2>Travel Modes</h2>
 
-      <h3>Bus</h3>
       <p>
-        Buses provide affordable and widely available transport across urban areas.
+        Overview of common urban transport options, including benefits and
+        limitations.
       </p>
-      <p><strong>Benefits:</strong> Low cost, frequent services</p>
-      <p><strong>Limitations:</strong> Affected by traffic and delays</p>
 
-      <h3>Rail / Tube</h3>
-      <p>
-        Rail and underground services offer fast travel across longer distances.
-      </p>
-      <p><strong>Benefits:</strong> Fast, reliable for longer journeys</p>
-      <p><strong>Limitations:</strong> Higher cost, peak time congestion</p>
+      <div className="card">
+        <h3>Bus</h3>
+        <p>Low-cost and widely available across London.</p>
+        <p>Can be affected by traffic and congestion.</p>
+      </div>
 
-      <h3>Cycling</h3>
-      <p>
-        Cycling is a sustainable and flexible transport option for short to medium distances.
-      </p>
-      <p><strong>Benefits:</strong> Free, environmentally friendly</p>
-      <p><strong>Limitations:</strong> Weather dependent, safety concerns</p>
+      <div className="card">
+        <h3>Rail / Tube</h3>
+        <p>Fast and efficient for medium to long journeys.</p>
+        <p>Can be expensive and crowded during peak times.</p>
+      </div>
 
-      <h3>Walking</h3>
-      <p>
-        Walking is the simplest form of transport, ideal for short distances.
-      </p>
-      <p><strong>Benefits:</strong> Free, healthy, zero emissions</p>
-      <p><strong>Limitations:</strong> Slow for longer distances</p>
+      <div className="card">
+        <h3>Cycling</h3>
+        <p>Free and environmentally friendly.</p>
+        <p>Weather dependent and requires safe routes.</p>
+      </div>
+
+      <div className="card">
+        <h3>Walking</h3>
+        <p>Best for short distances and completely free.</p>
+        <p>Not practical for long journeys.</p>
+      </div>
     </div>
   );
 }

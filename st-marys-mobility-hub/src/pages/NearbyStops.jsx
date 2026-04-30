@@ -4,74 +4,65 @@ function NearbyStops() {
   const [query, setQuery] = useState("");
   const [stops, setStops] = useState([]);
   const [arrivals, setArrivals] = useState([]);
-  const [selectedStop, setSelectedStop] = useState("");
+  const [selected, setSelected] = useState("");
   const [message, setMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState("");
 
   async function searchStops() {
     if (!query.trim()) {
-      setMessage("Enter a postcode, station name, or stop name.");
+      setMessage("Enter a location.");
       setStops([]);
-      setArrivals([]);
       return;
     }
 
     setMessage("Searching...");
     setStops([]);
     setArrivals([]);
-    setSelectedStop("");
 
     try {
-      const response = await fetch(
-        `https://api.tfl.gov.uk/StopPoint/Search/${encodeURIComponent(
-          query
-        )}?modes=bus,tube,overground,elizabeth-line,national-rail&maxResults=10&includeHubs=true`
+      const res = await fetch(
+        `https://api.tfl.gov.uk/StopPoint/Search/${encodeURIComponent(query)}?maxResults=10`
       );
 
-      const data = await response.json();
+      const data = await res.json();
 
-      if (!response.ok || !data.matches || data.matches.length === 0) {
-        setMessage(
-          "No stops found. Try a station or stop name, such as Waterloo, Richmond, or Twickenham."
-        );
+      if (!data.matches || data.matches.length === 0) {
+        setMessage("No stops found.");
         return;
       }
 
-      setStops(data.matches.slice(0, 10));
+      setStops(data.matches);
       setMessage("");
     } catch {
-      setMessage("Error loading stop data.");
-      setStops([]);
-      setArrivals([]);
+      setMessage("Error loading data.");
     }
   }
 
-  async function fetchArrivals(stop) {
-    setSelectedStop(stop.name);
-    setArrivalMessage("Loading arrivals...");
+  async function getArrivals(stop) {
+    setSelected(stop.name);
+    setArrivalMessage("Loading...");
     setArrivals([]);
 
     try {
-      const response = await fetch(
+      const res = await fetch(
         `https://api.tfl.gov.uk/StopPoint/${stop.id}/Arrivals`
       );
 
-      const data = await response.json();
+      const data = await res.json();
 
-      if (!response.ok || !Array.isArray(data) || data.length === 0) {
-        setArrivalMessage("No live arrivals available for this stop.");
+      if (!Array.isArray(data) || data.length === 0) {
+        setArrivalMessage("No live arrivals.");
         return;
       }
 
-      const sortedArrivals = data
-        .sort((a, b) => a.timeToStation - b.timeToStation)
-        .slice(0, 8);
-
-      setArrivals(sortedArrivals);
+      setArrivals(
+        data
+          .sort((a, b) => a.timeToStation - b.timeToStation)
+          .slice(0, 6)
+      );
       setArrivalMessage("");
     } catch {
       setArrivalMessage("Error loading arrivals.");
-      setArrivals([]);
     }
   }
 
@@ -79,73 +70,75 @@ function NearbyStops() {
     <div>
       <h2>Nearby Stops</h2>
 
-      <p>
-        Search for transport stops using a postcode, station name, or stop name,
-        then view live arrivals where available.
-      </p>
+      <p>Search stops and view live arrivals.</p>
 
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Example: Waterloo, Richmond, Twickenham"
-      />
+      <div className="card">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="e.g. Waterloo"
+        />
 
-      <br />
-      <br />
+        <br /><br />
 
-      <button onClick={searchStops}>Search Stops</button>
+        <button onClick={searchStops}>Search</button>
+      </div>
 
       {message && <p>{message}</p>}
 
       {stops.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Modes</th>
-              <th>Arrivals</th>
-            </tr>
-          </thead>
-          <tbody>
-            {stops.map((stop) => (
-              <tr key={stop.id}>
-                <td>{stop.name}</td>
-                <td>{stop.modes ? stop.modes.join(", ") : "Not listed"}</td>
-                <td>
-                  <button onClick={() => fetchArrivals(stop)}>
-                    View arrivals
-                  </button>
-                </td>
+        <div className="card">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Modes</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {stops.map((stop) => (
+                <tr key={stop.id}>
+                  <td>{stop.name}</td>
+                  <td>{stop.modes?.join(", ")}</td>
+                  <td>
+                    <button onClick={() => getArrivals(stop)}>
+                      Arrivals
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
-      {selectedStop && <h3>Live arrivals for {selectedStop}</h3>}
+      {selected && <h3>{selected}</h3>}
 
       {arrivalMessage && <p>{arrivalMessage}</p>}
 
       {arrivals.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>Service</th>
-              <th>Destination</th>
-              <th>Arrival</th>
-            </tr>
-          </thead>
-          <tbody>
-            {arrivals.map((arrival) => (
-              <tr key={arrival.id}>
-                <td>{arrival.lineName}</td>
-                <td>{arrival.destinationName}</td>
-                <td>{Math.ceil(arrival.timeToStation / 60)} mins</td>
+        <div className="card">
+          <table>
+            <thead>
+              <tr>
+                <th>Service</th>
+                <th>Destination</th>
+                <th>Time</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {arrivals.map((a) => (
+                <tr key={a.id}>
+                  <td>{a.lineName}</td>
+                  <td>{a.destinationName}</td>
+                  <td>{Math.ceil(a.timeToStation / 60)} mins</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

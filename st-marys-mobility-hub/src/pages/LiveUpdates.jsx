@@ -2,64 +2,61 @@ import { useEffect, useState } from "react";
 
 function LiveUpdates() {
   const [lines, setLines] = useState([]);
-  const [message, setMessage] = useState("Loading live service updates...");
+  const [message, setMessage] = useState("Loading...");
 
   useEffect(() => {
-    async function fetchServiceUpdates() {
+    async function fetchData() {
       try {
-        const response = await fetch(
+        const res = await fetch(
           "https://api.tfl.gov.uk/line/mode/tube,overground/status"
         );
 
-        if (!response.ok) {
-          throw new Error("Failed to load service updates");
+        const data = await res.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+          setMessage("No data available.");
+          return;
         }
 
-        const data = await response.json();
         setLines(data);
         setMessage("");
-      } catch (error) {
-        setMessage("Unable to load live service updates.");
+      } catch {
+        setMessage("Error loading data.");
       }
     }
 
-    fetchServiceUpdates();
+    fetchData();
   }, []);
 
   return (
     <div>
       <h2>Live Service Updates</h2>
 
-      <p>
-        This page displays live London Underground service updates using the TfL
-        Unified API.
-      </p>
+      <p>Live status of major London transport lines.</p>
 
       {message && <p>{message}</p>}
 
       {lines.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>Line</th>
-              <th>Status</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lines.map((line) => (
-              <tr key={line.id}>
-                <td>{line.name}</td>
-                <td>{line.lineStatuses[0]?.statusSeverityDescription}</td>
-                <td>
-                  {line.lineStatuses[0]?.reason
-                    ? line.lineStatuses[0].reason
-                    : "No additional details"}
-                </td>
+        <div className="card">
+          <table>
+            <thead>
+              <tr>
+                <th>Line</th>
+                <th>Status</th>
+                <th>Details</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {lines.map((line) => (
+                <tr key={line.id}>
+                  <td>{line.name}</td>
+                  <td>{line.lineStatuses[0]?.statusSeverityDescription}</td>
+                  <td>{line.lineStatuses[0]?.reason || "Good service"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

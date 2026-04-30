@@ -5,7 +5,6 @@ body {
   color: #111;
 }
 
-/* NAV */
 
 nav {
   display: flex;
@@ -26,7 +25,6 @@ nav a:hover {
   color: #000;
 }
 
-/* LAYOUT */
 
 .container {
   max-width: 1100px;
@@ -34,7 +32,6 @@ nav a:hover {
   padding: 0 20px;
 }
 
-/* HEADINGS */
 
 h1 {
   font-size: 40px;
@@ -57,7 +54,6 @@ p {
   line-height: 1.6;
 }
 
-/* CARD SYSTEM */
 
 .card {
   background: #fff;
@@ -73,7 +69,6 @@ p {
   box-shadow: 0 15px 40px rgba(0,0,0,0.08);
 }
 
-/* INPUTS */
 
 input, select {
   padding: 10px 12px;
@@ -89,7 +84,6 @@ input:focus, select:focus {
   border-color: #000;
 }
 
-/* BUTTON */
 
 button {
   padding: 10px 16px;
@@ -105,7 +99,6 @@ button:hover {
   background: #333;
 }
 
-/* TABLE */
 
 table {
   width: 100%;
@@ -125,7 +118,6 @@ td {
   border-bottom: 1px solid #f2f2f2;
 }
 
-/* MOBILE */
 
 @media (max-width: 600px) {
   nav {
